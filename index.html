@@ -12,7 +12,7 @@
 
 <body>
     <h1>Catch the firefly!</h1>
-    <p id="score"> 0</p>
+    <p id="score">0</p>
     <img id="firefly" src="firefly-1.png" />
 
     <div id="game-over">
@@ -22,34 +22,48 @@
 
     <script>
         // 1. Create a variable to keep score and give it an initial value.
-       
-    
+        let score = 0;
+
         // 2. Select the firefly picture by its id and assign it a variable.
-      
+        const firefly = document.getElementById('firefly');
         
-       // 3. Select the #score p tag by its id and assign it a variable.
-       
+        // 3. Select the #score p tag by its id and assign it a variable.
+        const scoreElement = document.getElementById('score');
 
         // 4. Hide the game over div using the style property.
-       
-
+        const gameOverDiv = document.getElementById('game-over');
+        gameOverDiv.style.display = 'none';
 
         /* 5. Write a function to increase the score when the firefly is clicked. 
         To call the function, add a click event listener to the firefly. */
-      
-        
+        firefly.addEventListener('click', increaseScore);
+
+        function increaseScore() {
+            score++;
+            scoreElement.textContent = score;
+        }
 
         /* 6. Create a function to move the firefly to random positions every second.
         The value of the style property must be a string. You will need to concatenate a it with Math.random() to generate the value for the top and left positions.
-        Call the function with a JS timing function, and assign it a variable so you can clear the interval on game over.
-        */
+        Call the function with a JS timing function, and assign it a variable so you can clear the interval on game over. */
+        let intervalId;
 
+        function moveFirefly() {
+            const maxX = window.innerWidth - firefly.clientWidth;
+            const maxY = window.innerHeight - firefly.clientHeight;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            firefly.style.top = randomY + 'px';
+            firefly.style.left = randomX + 'px';
+        }
 
-     
+        intervalId = setInterval(moveFirefly, 1000);
 
         /* 7. Stop the animation and show the #game-over div after 1 minute */
-       
-
+        setTimeout(function() {
+            clearInterval(intervalId);
+            gameOverDiv.style.display = 'block';
+        }, 60000);
     </script>
 </body>
 
